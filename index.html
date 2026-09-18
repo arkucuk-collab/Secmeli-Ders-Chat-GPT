@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hangi ders bana göre?</title>
+<style>
+:root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#172b40;background:#f3f6f7;line-height:1.6}
+*{box-sizing:border-box}
+body{margin:0}
+main{max-width:960px;margin:auto;padding:20px 16px 48px}
+section{background:#fff;border:1px solid #dce5e8;border-radius:20px;padding:24px;margin-bottom:20px}
+.step{margin:0 0 12px;color:#426071;font-size:.78rem;font-weight:800;letter-spacing:.12em}
+h1,h2,h3,p{margin:0 0 14px}
+h1{font-size:clamp(2rem,7vw,3.3rem);line-height:1.15;letter-spacing:-.04em}
+h2{font-size:1.45rem;line-height:1.3}
+h3{font-size:1.1rem}
+.lead{font-size:1.1rem;max-width:580px}
+.badge{display:inline-block;padding:5px 12px;border-radius:30px;background:#e3f4ef;color:#145943;font-weight:700}
+.note{font-size:.88rem;color:#526574}
+label{display:block;font-weight:650;margin-bottom:6px}
+select,textarea,button{font:inherit}
+select,textarea{width:100%;padding:12px;border:1px solid #97aab6;border-radius:10px;background:#fff;color:#172b40}
+select{min-height:48px}
+textarea{min-height:92px;resize:vertical}
+:focus-visible{outline:3px solid #186dc5;outline-offset:4px}
+.field{margin-bottom:18px}
+.grid{display:grid;grid-template-columns:1fr;gap:14px}
+.card{padding:18px;border:1px solid #dce5e8;border-radius:14px;background:#fafcfc;min-width:0}
+dl{margin:0}
+dl div{display:flex;justify-content:space-between;gap:12px;padding:5px 0}
+dt{color:#526574}
+dd{margin:0;font-weight:650}
+.source{margin:14px 0 0;padding-top:12px;border-top:1px solid #dce5e8;font-size:.82rem;color:#526574}
+.check{display:flex;align-items:center;gap:12px;min-height:48px;font-weight:500;cursor:pointer}
+.check input{width:22px;height:22px;accent-color:#09694f;flex-shrink:0}
+button{cursor:pointer;border-radius:12px;padding:12px 18px;font-weight:750;min-height:48px}
+.secondary{background:#fff;border:1px solid #8ca3af;color:#172b40}
+.secondary:hover{background:#f0f6f5}
+#action{background:#e6f4ee;border:2px solid #7ebba7}
+.primary{display:block;width:100%;min-height:76px;background:#075e45;color:#fff;border:0;font-size:1.35rem;box-shadow:0 5px 0 #034633}
+.primary:hover{background:#034c38}
+.primary:active{transform:translateY(2px);box-shadow:0 3px 0 #034633}
+#results{margin-top:28px}
+#results ul{padding-left:20px;font-size:.9rem}
+#results li{margin:6px 0}
+#preview{margin-top:18px}
+#preview .card{padding:12px;text-align:center;font-weight:700}
+#commentStatus{margin:12px 0 0}
+[hidden]{display:none!important}
+@media(min-width:680px){main{padding-top:36px}section{padding:32px}.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.filters{grid-template-columns:1fr 1fr}}
+@media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+</head>
+<body>
+<main>
+<section aria-labelledby="introTitle">
+<p class="step">1 · GİRİŞ</p>
+<p class="badge">Kayıt yok · 2 dakika</p>
+<h1 id="introTitle">Hangi ders bana göre?</h1>
+<p class="lead">Bölümünü seç, sana uygun 3 dersi hemen gör.</p>
+<p class="note">Bu bir prototiptir. Ders bilgileri ve yorumlar [örnek] olarak gösterilir; gerçek ders uygunluğu hesaplanmaz.</p>
+<label for="department">Bölümün</label>
+<select id="department" form="recommendationForm" required>
+<option value="">Bölümünü seç</option>
+<option value="example">[örnek]</option>
+</select>
+<div id="preview" aria-live="polite" hidden>
+<p><strong>3 derslik örnek ön izleme</strong></p>
+<div class="grid" role="list" aria-label="Örnek dersler">
+<div class="card" role="listitem">[örnek]</div>
+<div class="card" role="listitem">[örnek]</div>
+<div class="card" role="listitem">[örnek]</div>
+</div>
+</div>
+</section>
+
+<section aria-labelledby="coursesTitle">
+<p class="step">2 · EKRAN 2</p>
+<h2 id="coursesTitle">Ders listesi</h2>
+<p>Kaynak: Bölümün resmî ders sayfası — <strong>[örnek]</strong></p>
+<p class="note">AKTS: Avrupa Kredi Transfer Sistemi. Resmî kaynak adresi ve ders verileri bu prototipte yer tutucudur.</p>
+<div id="courseList" class="grid"></div>
+</section>
+
+<section aria-labelledby="filtersTitle">
+<p class="step">3 · EKRAN 3</p>
+<h2 id="filtersTitle">Tercihlerini belirle</h2>
+<div class="grid filters">
+<div class="field">
+<label for="term">Dönem</label>
+<select id="term" form="recommendationForm">
+<option value="">Dönem fark etmez</option>
+<option value="example">[örnek]</option>
+</select>
+</div>
+<div class="field">
+<label for="exam">Sınav tipi</label>
+<select id="exam" form="recommendationForm">
+<option value="">Sınav tipi fark etmez</option>
+<option value="example">[örnek]</option>
+</select>
+</div>
+</div>
+<label class="check" for="morning">
+<input type="checkbox" id="morning" form="recommendationForm">
+Sabah dersi istemiyorum
+</label>
+<p class="note">Seçtiğin tercihler, sonuçlarda her dersin öneri ölçütleri olarak gösterilir.</p>
+</section>
+
+<section aria-labelledby="commentsTitle">
+<p class="step">4 · EKRAN 4</p>
+<h2 id="commentsTitle">Yorum ekle</h2>
+<p>3 soru, isimsiz. Yorumlar dersi alan öğrencilerden alınır ve yalnızca kulüp onayından sonra yayımlanır.</p>
+<p class="note">Onaylayan kulüp: [örnek]. İsim veya iletişim bilgisi yazma. Bu prototip yorumları göndermez, kaydetmez veya yayımlamaz.</p>
+<form id="commentForm">
+<div class="field">
+<label for="commentCourse">1. Hangi ders için yorum yapıyorsun?</label>
+<select id="commentCourse" required>
+<option value="">Ders seç</option>
+<option value="example">[örnek]</option>
+</select>
+</div>
+<div class="field">
+<label for="workload">2. Dersin iş yükünü nasıl değerlendirirsin?</label>
+<textarea id="workload" placeholder="[örnek]" maxlength="400" required></textarea>
+</div>
+<div class="field">
+<label for="examComment">3. Sınav biçimini nasıl değerlendirirsin?</label>
+<textarea id="examComment" placeholder="[örnek]" maxlength="400" required></textarea>
+</div>
+<button class="secondary" type="submit">Yorumu onaya hazırla</button>
+<p id="commentStatus" class="note" role="status"></p>
+</form>
+</section>
+
+<section id="action" aria-labelledby="actionTitle">
+<p class="step">5 · AKSİYON</p>
+<h2 id="actionTitle">Tercihlerine göre 3 ders</h2>
+<p>Dersleri ve öneride dikkate alınacak ölçütleri birlikte gör.</p>
+<form id="recommendationForm">
+<button class="primary" type="submit">Bana ders öner</button>
+</form>
+<div id="results" hidden>
+<h3 id="resultsTitle" tabindex="-1">3 ders · örnek sonuç</h3>
+<p class="note">Aşağıdaki ölçütler seçimlerini yansıtır. Ders verileri [örnek] olduğu için eşleşmeler doğrulanmamıştır.</p>
+<div id="resultList" class="grid"></div>
+</div>
+</section>
+</main>
+
+<template id="courseTemplate">
+<article class="card">
+<h3>[örnek]</h3>
+<dl>
+<div><dt>Süre</dt><dd>[örnek]</dd></div>
+<div><dt>Sınav tipi</dt><dd>[örnek]</dd></div>
+<div><dt>AKTS</dt><dd>[örnek]</dd></div>
+</dl>
+<p class="source">Resmî kaynak: [örnek]</p>
+</article>
+</template>
+<script>
+const $=id=>document.getElementById(id);
+const createCard=()=>$("courseTemplate").content.firstElementChild.cloneNode(true);
+for(let i=0;i<3;i++) $("courseList").append(createCard());
+["department","term","exam","morning"].forEach(id=>{
+  $(id).addEventListener("change",()=>{
+    $("preview").hidden=!$("department").value;
+    $("results").hidden=true;
+  });
+});
+$("recommendationForm").addEventListener("submit",event=>{
+  event.preventDefault();
+  const criteria=[
+    "Bölüm tercihi: [örnek]",
+    $("term").value?"Dönem tercihi: [örnek]":"Dönem: Kısıt yok",
+    $("exam").value?"Sınav tipi tercihi: [örnek]":"Sınav tipi: Kısıt yok",
+    $("morning").checked?"Saat tercihi: Sabah dersi olmasın":"Ders saati: Kısıt yok"
+  ];
+  $("resultList").replaceChildren();
+  for(let i=0;i<3;i++){
+    const card=createCard(),title=document.createElement("p"),list=document.createElement("ul");
+    title.textContent="Öneri ölçütleri";
+    title.style.fontWeight="750";
+    title.style.marginTop="16px";
+    criteria.forEach(text=>{const item=document.createElement("li");item.textContent=text;list.append(item);});
+    card.append(title,list);
+    $("resultList").append(card);
+  }
+  $("results").hidden=false;
+  $("resultsTitle").focus();
+});
+$("commentForm").addEventListener("submit",event=>{
+  event.preventDefault();
+  $("commentStatus").textContent="Örnek form tamamlandı. Yorum gönderilmedi; yayımlanması için kulüp onayı gerekir.";
+});
+</script>
+</body>
+</html>
